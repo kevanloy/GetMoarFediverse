@@ -1,5 +1,11 @@
 name: GetMoarFediverse
 description: Runs GetMoarFediverse in GitHub actions
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
 branding:
   icon: activity
   color: green
