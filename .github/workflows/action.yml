@@ -1,0 +1,45 @@
+name: GetMoarFediverse
+description: Runs GetMoarFediverse in GitHub actions
+branding:
+  icon: activity
+  color: green
+inputs:
+  config_file: ${{ github.workspace }}/config.json
+    description: Path to the config.json
+    required: true
+  api_key: ${{ secrets.FAKERELAY_APIKEY }}
+    description: FakeRelay API key if it isn't defined in the config.json
+  executable_path:
+    description: Path to the GetMoarFediverse archive
+    required: true
+    default: https://github.com/g3rv4/GetMoarFediverse/releases/latest/download/GetMoarFediverse_linux-x64.tgz
+runs:
+  using: composite
+  steps:
+    - name: create tmp dir
+      id: mktemp
+      run: echo "MOAR_TMP_DIR=$(mktemp -d)" >> $GITHUB_ENV
+      shell: bash
+    - name: copy config
+      run: cp ${{ inputs.config_file }} ${MOAR_TMP_DIR}/config.json
+      shell: bash
+    - name: download artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        name: moar-imported
+        path: ${{ env.MOAR_TMP_DIR }}
+        if_no_artifact_found: warn
+    - name: import-data
+      env:
+        FAKERELAY_APIKEY: ${{ inputs.api_key }}
+      run: |
+        wget -nv ${{ inputs.executable_path }}
+        tar -xzf GetMoarFediverse_linux-x64.tgz
+        cd GetMoarFediverse-*
+        ./GetMoarFediverse ${{ env.MOAR_TMP_DIR }}/config.json
+      shell: bash
+    - name: store artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: moar-imported
+        path: ${{ env.MOAR_TMP_DIR }}/imported.txt
