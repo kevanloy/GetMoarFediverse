@@ -1,0 +1,13 @@
+{
+  "FakeRelayUrl": "https://foo.example",
+  "Api": {
+    "Url": "https://said.social/api/",
+    "Tokens": [
+      {
+        "Owner": "Kevan",
+        "Token": "JhzqmJUQOUI6txFL8befqMDNfoNS0H1TZ0Zjiq_5GAs"
+      }
+    ]
+  },
+  "Instances": ["mastodon.social" ]
+}
