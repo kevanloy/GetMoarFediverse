@@ -9,7 +9,6 @@ inputs:
     required: true
   api_key: ${{ secrets.FAKERELAY_APIKEY }}
     description: FakeRelay API key if it isn't defined in the config.json
-  mastodon_api_key: ${{ secrets.MASTODON_API }}   
   executable_path:
     description: Path to the GetMoarFediverse archive
     required: true
