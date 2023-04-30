@@ -3,6 +3,12 @@ description: Runs GetMoarFediverse in GitHub actions
 branding:
   icon: activity
   color: green
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+  
 inputs:
   config_file: 
     description: ${{ github.workspace }}/config.json
